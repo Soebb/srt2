@@ -31,18 +31,11 @@ check_user = filters.create(_check_user)
 @Client.on_message(filters.document & check_user & filters.private)
 async def save_doc(client, message):
     chat_id = message.from_user.id
-    start_time = time.time()
     downloading = await client.send_message(chat_id, 'Downloading your File!')
     
     download_location = await client.download_media(
         message = message,
-        file_name = Config.DOWNLOAD_DIR+'/',
-        progress = progress_bar,
-        progress_args = (
-            'Initializing',
-            downloading,
-            start_time
-        )
+        file_name = Config.DOWNLOAD_DIR+'/'
     )
     tg_filename = os.path.basename(download_location)
     try:
